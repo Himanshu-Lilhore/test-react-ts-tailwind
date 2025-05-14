@@ -69,7 +69,7 @@ const BorderAnimation = () => {
         >
             <div
                 ref={borderRef}
-                className="borderEle z-10 absolute bg-[conic-gradient(#FF0000_20deg,#999999_120deg)] h-[100%] w-[100%] left-0 top-0"
+                className="borderEle z-10 absolute bg-[conic-gradient(#32CD32_20deg,#171717_120deg)] h-[100%] w-[100%] left-0 top-0"
             ></div>
             <div className="flex gap-2 z-20 relative bg-[#212121] w-full h-full rounded-2xl flex items-center justify-center">
                 <img src="./images/stars.png" alt="logo" className="w-[2vw] h-[2vw]" />
