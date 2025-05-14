@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+/* Set the size of the gradient-bg div */
+.gradient-bg {
+    width: 100%;
+    height: 22vw;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base image (plain color image) */
+.base-image {
+    background-image: url("../public/spotlightLogo/footerLogoBase.svg");
+    background-repeat: no-repeat;
+    position: absolute;
+    background-size: 100vw auto;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+/* Gradient image with radial reveal effect */
+.gradient-image {
+    background-image: url("../public/spotlightLogo/gradLogo.svg");
+    background-repeat: no-repeat;
+    opacity: 1;
+    mask: radial-gradient(circle 8vw at var(--x, 0) var(--y, 0), #000 50%, transparent 130%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    object-fit: contain !important;
+    background-size: 100vw auto;
+}
+
+.borderAniParent {
+    .borderEle {
+        animation: rotate360 5s linear infinite;
+    }
+}
+
+/* @keyframes rotate360 {
+  0%     { transform: rotate(0deg) scale(8); }
+  12.5%  { transform: rotate(calc(-1 * var(--angle))) scale(8); }
+  37.5%  { transform: rotate(calc(-1 * (var(--angle) + 2*(90deg - var(--angle))))) scale(8); }
+  62.5%  { transform: rotate(calc(-1 * (3*var(--angle) + 2*(90deg - var(--angle))))) scale(8); }
+  87.5%  { transform: rotate(calc(-1 * (3*var(--angle) + 4*(90deg - var(--angle))))) scale(8); }
+  100%   { transform: rotate(-360deg) scale(8); }
+} */
+@keyframes rotate360 {
+  0%     { transform: rotate(0deg) scale(8); }
+  25%    { transform: rotate(-80deg) scale(8); }
+  40%  { transform: rotate(-100deg) scale(8); }
+  60%  { transform: rotate(-260deg) scale(8); }
+  75%    { transform: rotate(-280deg) scale(8); }
+  100%   { transform: rotate(-360deg) scale(8); }
+}
