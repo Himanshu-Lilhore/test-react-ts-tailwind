@@ -8,7 +8,7 @@ const BorderAniWithSvg = () => {
     // SVG viewBox: 1 unit = 0.1vw (so 290 units → 29vw, 41 units → 4.1vw)
     const viewBoxW = widthVw * 10;
     const viewBoxH = heightVw * 10;
-    const inset = 2; // increase inset to allow thicker stroke inside
+    const inset = 5; // increase inset to allow thicker stroke inside
     const pathD = `
     M ${inset},${inset}
     H ${viewBoxW - inset}
@@ -23,10 +23,16 @@ const BorderAniWithSvg = () => {
             style={{
                 width: `${widthVw}vw`,
                 height: `${heightVw}vw`,
-                padding: "0.4px",
+                padding: "1px",
             }}
         >
-            <div className="z-20 w-[99%] h-[94%] bg-zinc-700 rounded-2xl"></div>
+            <div className="flex gap-2 z-20 relative bg-[#212121] w-full h-full rounded-2xl flex items-center justify-center">
+                <img src="./images/stars.png" alt="logo" className="w-[2vw] h-[2vw]" />
+                <div className="text-[#FFFFFF] text-[1.2vw] font-semibold">
+                    Raised $2M to Build India’s #1 UG Platform
+                </div>
+            </div>
+
             {/* SVG overlay */}
             <svg
                 className="absolute inset-0 z-10"
@@ -47,9 +53,9 @@ const BorderAniWithSvg = () => {
                 />
 
                 <TrailDots
-                    count={30}
+                    count={15}
                     baseRadius={8}
-                    color="#FFA500"
+                    color="#D58300"
                     duration={duration}
                     trailFraction={0.008}
                 />
