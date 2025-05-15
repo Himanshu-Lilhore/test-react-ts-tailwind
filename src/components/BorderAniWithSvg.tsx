@@ -1,14 +1,19 @@
 import { FC } from "react";
 
-const BorderAniWithSvg = () => {
-    const widthVw = 29;
-    const heightVw = 4.1;
-    const duration = 4; // seconds
-
-    // SVG viewBox: 1 unit = 0.1vw (so 290 units → 29vw, 41 units → 4.1vw)
+const BorderAniWithSvg = ({
+    widthVw,
+    heightVw,
+    duration,
+    color,
+}: {
+    widthVw: number;
+    heightVw: number;
+    duration: number;
+    color: string;
+}) => {
     const viewBoxW = widthVw * 10;
     const viewBoxH = heightVw * 10;
-    const inset = 5; // increase inset to allow thicker stroke inside
+    const inset = 5; // defines stroke width
     const pathD = `
     M ${inset},${inset}
     H ${viewBoxW - inset}
@@ -23,7 +28,7 @@ const BorderAniWithSvg = () => {
             style={{
                 width: `${widthVw}vw`,
                 height: `${heightVw}vw`,
-                padding: "1px",
+                padding: "1px", // defines thickness
             }}
         >
             <div className="flex gap-2 z-20 relative bg-[#212121] w-full h-full rounded-2xl flex items-center justify-center">
@@ -55,7 +60,7 @@ const BorderAniWithSvg = () => {
                 <TrailDots
                     count={15}
                     baseRadius={8}
-                    color="#D58300"
+                    color={color}
                     duration={duration}
                     trailFraction={0.008}
                 />
@@ -70,7 +75,7 @@ interface TrailDotsProps {
     count: number;
     baseRadius: number;
     color: string; // hex
-    duration: number; // loop duration in seconds
+    duration: number; // seconds
     trailFraction: number; // offset fraction per dot
 }
 
@@ -84,12 +89,9 @@ export const TrailDots: FC<TrailDotsProps> = ({
     return (
         <>
             {Array.from({ length: count }).map((_, i) => {
-                // compute delay (in seconds)
                 const begin = (i * trailFraction * duration).toFixed(2) + "s";
-                // const r = +(baseRadius * (1 - 0.1 * i)).toFixed(1); // taper radius -10% each
                 const r = baseRadius;
-                // fade from 1.00 at i=0 to 0.02 at i=count-1
-                const opacity = +((1 - i / (count - 1)) * 0.98 + 0.02).toFixed(2);
+                const opacity = +((1 - i / (count - 1)) * 0.98 + 0.02).toFixed(2); // fade from 1.00 at i=0 to 0.02 at i=count-1
 
                 return (
                     <circle key={i} r={r} fill={color} opacity={opacity}>
