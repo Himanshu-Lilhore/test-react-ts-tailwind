@@ -1,9 +1,9 @@
-import BorderAnimation from "./components/BorderAnimation.js";
+import BorderAniWithSvg from "./components/BorderAniWithSvg";
 
 export default function App() {
     return (
         <div className="w-full h-screen pt-[10vw] pl-[10vw] bg-black">
-            <BorderAnimation />
+            <BorderAniWithSvg />
         </div>
     );
 }
