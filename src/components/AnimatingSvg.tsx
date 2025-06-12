@@ -9,7 +9,7 @@ const pathsData = [
 ];
 
 export default function AnimatingSvg() {
-    const [progress, setProgress] = useState(Array(pathsData.length).fill(0));
+    const [progress, setProgress] = useState(0);
     const lastUpdateTime = useRef(Date.now());
     const [lengths, setLengths] = useState(Array(pathsData.length).fill(1));
     const pathRefs = useRef<(SVGPathElement | null)[]>([]);
@@ -23,11 +23,15 @@ export default function AnimatingSvg() {
     useEffect(() => {
         const tick = () => {
             const currTime = Date.now();
+            let isCompleted = false
             if (currTime - lastUpdateTime.current > 41) {
-                setProgress((prev) => prev.map((p, i) => (p < 1 ? Math.min(1, p + 0.03) : 1)));
+                setProgress((prev) => {
+                    if(prev === 1) isCompleted = true
+                    return prev < 1 ? Math.min(1, prev + 0.03) : 1
+                });
                 lastUpdateTime.current = currTime;
             }
-            requestAnimationFrame(tick);
+            if(!isCompleted) requestAnimationFrame(tick)
         };
         tick();
     }, []);
@@ -45,14 +49,12 @@ export default function AnimatingSvg() {
             strokeLinejoin="round"
             fill="none"
             strokeDasharray={lengths[i]}
-            strokeDashoffset={lengths[i] - lengths[i] * progress[i]}
+            strokeDashoffset={lengths[i] - lengths[i] * progress}
         />
     ));
 
     return (
         <svg
-            width="800px"
-            height="800px"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
