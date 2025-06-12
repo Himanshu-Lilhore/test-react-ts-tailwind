@@ -5,11 +5,13 @@ const BorderAniWithSvg = ({
     heightVw,
     duration,
     color,
+    title,
 }: {
     widthVw: number;
     heightVw: number;
     duration: number;
     color: string;
+    title: string;
 }) => {
     const viewBoxW = widthVw * 10;
     const viewBoxH = heightVw * 10;
@@ -24,18 +26,19 @@ const BorderAniWithSvg = ({
 
     return (
         <div
-            className="relative bg-[#121212] rounded-2xl p-1 flex items-center justify-center overflow-hidden"
+            className="relative bg-[#404040] rounded-[1.25vw] flex items-center justify-center overflow-hidden"
             style={{
                 width: `${widthVw}vw`,
                 height: `${heightVw}vw`,
                 padding: "1px", // defines thickness
             }}
         >
-            <div className="flex gap-2 z-20 relative bg-[#212121] w-full h-full rounded-2xl flex items-center justify-center">
+            <div
+                className="flex gap-2 z-20 relative
+             bg-[#212121] w-full h-full rounded-[1.25vw] flex items-center justify-center"
+            >
                 <img src="./images/stars.png" alt="logo" className="w-[2vw] h-[2vw]" />
-                <div className="text-[#FFFFFF] text-[1.2vw] font-semibold">
-                    Raised $2M to Build India’s #1 UG Platform
-                </div>
+                <div className="text-[#FFFFFF] text-[1.2vw] font-semibold font-montreal-medium">{title}</div>
             </div>
 
             {/* SVG overlay */}
