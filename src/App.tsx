@@ -1,9 +1,9 @@
-import BorderAniWithSvg from "./components/BorderAniWithSvg";
+import AnimatingSvg from "./components/AnimatingSvg";
 
 export default function App() {
     return (
-        <div className="w-full h-screen pt-[10vw] pl-[10vw] bg-black">
-            <BorderAniWithSvg widthVw={29} heightVw={4.1} duration={4} color="#D58300"/>
+        <div className="w-full h-screen pt-[5vw] pl-[5vw] bg-black">
+            <AnimatingSvg />
         </div>
     );
 }
