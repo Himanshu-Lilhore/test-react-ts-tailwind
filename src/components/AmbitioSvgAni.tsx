@@ -102,11 +102,20 @@ export default function AmbitioSvgAni() {
     ));
 
     return (
-        <>
-            {/* SVG  */}
-            <svg viewBox="-2 -2 99 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {paths}
-            </svg>
+        <div className="size-[50%]">
+            <div className="relative">
+                {/* SVG  */}
+                <svg viewBox="-2 -2 99 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {paths}
+                </svg>
+                <div
+                    className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 text-gray-800 text-2xl font-extrabold transition-all duration-300 ease-out ${
+                        progress === 0 ? "opacity-100 scale-110" : "opacity-0 scale-100"
+                    }`}
+                >
+                    Please wait...
+                </div>
+            </div>
 
             {/* Controls  */}
             <div className="mt-[28vw] flex gap-3 bg-black">
@@ -127,6 +136,6 @@ export default function AmbitioSvgAni() {
                 />
                 <div className="text-gray-300 opacity-80">{(progress * 100).toFixed(0)}%</div>
             </div>
-        </>
+        </div>
     );
 }
