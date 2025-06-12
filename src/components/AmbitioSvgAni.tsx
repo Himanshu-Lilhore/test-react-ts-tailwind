@@ -20,9 +20,10 @@ export default function AmbitioSvgAni() {
     const lastUpdateTime = useRef(Date.now());
     const [lengths, setLengths] = useState(Array(pathsData.length).fill(1));
     const pathRefs = useRef<(SVGPathElement | null)[]>([]);
-    const progressVariable = 0.02
-    const timeBwFrames = 41  // 41ms for 24fps
-    const pauseTime = 1500   // 2 sec
+    const [manualControl, setManualControl] = useState(false);
+    const progressVariable = 0.02;
+    const timeBwFrames = 41; // 41ms for 24fps
+    const pauseTime = 1500; // 2 sec
 
     useEffect(() => {
         const newLengths = pathRefs.current.map((ref) => ref?.getTotalLength() || 1);
@@ -30,7 +31,11 @@ export default function AmbitioSvgAni() {
     }, []);
 
     useEffect(() => {
+        let frameId: number | null = null;
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
         const tickReverse = () => {
+            if (manualControl) return;
             const currTime = Date.now();
             let isCompleted = false;
             if (currTime - lastUpdateTime.current > timeBwFrames) {
@@ -40,18 +45,20 @@ export default function AmbitioSvgAni() {
                 });
                 lastUpdateTime.current = currTime;
             }
-            if (!isCompleted) requestAnimationFrame(tickReverse);
+            if (!isCompleted) frameId = requestAnimationFrame(tickReverse);
             else {
                 pause(false);
             }
         };
-        const pause = (rev:boolean) => {
-            setTimeout(() => {
-                if(rev) tickReverse();
-                else tick();
+        const pause = (rev: boolean) => {
+            timeoutId = setTimeout(() => {
+                if (manualControl) return;
+                if (rev) frameId = requestAnimationFrame(tickReverse);
+                else frameId = requestAnimationFrame(tick);
             }, pauseTime);
         };
         const tick = () => {
+            if (manualControl) return;
             const currTime = Date.now();
             let isCompleted = false;
             if (currTime - lastUpdateTime.current > timeBwFrames) {
@@ -61,13 +68,21 @@ export default function AmbitioSvgAni() {
                 });
                 lastUpdateTime.current = currTime;
             }
-            if (!isCompleted) requestAnimationFrame(tick);
+            if (!isCompleted) frameId = requestAnimationFrame(tick);
             else {
                 pause(true);
             }
         };
-        tick();
-    }, []);
+
+        if (!manualControl) {
+            frameId = requestAnimationFrame(tick);
+        }
+
+        return () => {
+            if (frameId != null) cancelAnimationFrame(frameId);
+            if (timeoutId != null) clearTimeout(timeoutId);
+        };
+    }, [manualControl]);
 
     const paths = pathsData.map((d, i) => (
         <path
@@ -87,8 +102,31 @@ export default function AmbitioSvgAni() {
     ));
 
     return (
-        <svg viewBox="-2 -2 99 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {paths}
-        </svg>
+        <>
+            {/* SVG  */}
+            <svg viewBox="-2 -2 99 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {paths}
+            </svg>
+
+            {/* Controls  */}
+            <div className="mt-[28vw] flex gap-3 bg-black">
+                <input
+                    type="checkbox"
+                    checked={manualControl}
+                    onChange={() => setManualControl((prev) => !prev)}
+                    className="opacity-80"
+                />{" "}
+                <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={progress}
+                    onChange={(e) => setProgress(parseFloat(e.target.value))}
+                    className="w-full grow opacity-50 hover:opacity-75"
+                />
+                <div className="text-gray-300 opacity-80">{(progress * 100).toFixed(0)}%</div>
+            </div>
+        </>
     );
 }
